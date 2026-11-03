@@ -1,0 +1,7 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 3a736e1d71f10db6d85f5d37cd88357592c49bbf5f636368d0528e7ba014b568 # shrinks to steps = [Command(Focus { direction: Left }), Command(Split { direction: Left }), Command(Split { direction: Left }), Command(Split { direction: Left }), Command(Split { direction: Left }), Command(NewTab), Command(RotatePanes)], area = Rect { x: 0, y: 0, size: GridSize { cols: 1, rows: 1 } }

@@ -1,0 +1,26 @@
+[package]
+name = "plx"
+description = "The plx terminal multiplexer"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+plx-bug.workspace = true
+plx-client = { path = "../plx-client" }
+plx-client-core.workspace = true
+plx-config.workspace = true
+plx-core.workspace = true
+plx-daemon = { path = "../plx-daemon" }
+plx-ghostty.workspace = true
+rustix.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+plx-config.workspace = true
+plx-emulator.workspace = true
+proptest.workspace = true
+
+[lints]
+workspace = true

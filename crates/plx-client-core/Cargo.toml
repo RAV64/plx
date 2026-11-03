@@ -1,0 +1,31 @@
+[package]
+name = "plx-client-core"
+description = "The pure client state machine and the damage-driven compositor"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+plx-bug.workspace = true
+plx-collections.workspace = true
+plx-core.workspace = true
+plx-emulator.workspace = true
+plx-protocol.workspace = true
+thiserror.workspace = true
+unicode-segmentation.workspace = true
+unicode-width.workspace = true
+
+[dev-dependencies]
+divan.workspace = true
+plx-alloc-count.workspace = true
+plx-core = { workspace = true, features = ["testkit"] }
+plx-emulator = { workspace = true, features = ["testkit"] }
+plx-ghostty.workspace = true
+proptest.workspace = true
+
+[[bench]]
+name = "compose"
+harness = false
+
+[lints]
+workspace = true

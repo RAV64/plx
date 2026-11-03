@@ -1,0 +1,32 @@
+# cargo-deny: dependency policy enforced in CI.
+
+[graph]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[advisories]
+yanked = "deny"
+
+[licenses]
+# Exactly the licenses in today's graph; a dependency with any other license
+# fails the check and has to be reviewed and added here deliberately.
+allow = ["Apache-2.0", "MIT", "Unicode-3.0"]
+confidence-threshold = 0.9
+# Workspace crates are unpublished and carry no license field.
+private = { ignore = true }
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+# Workspace path dependencies carry no version; they are unpublished.
+allow-wildcard-paths = true
+deny = [
+  { crate = "tokio", reason = "single-threaded mio reactor; no async runtime" },
+  { crate = "bincode", reason = "tombstone release, unmaintained (RUSTSEC-2025-0141)", use-instead = "postcard" },
+  { crate = "portable-pty", reason = "blocking reader per pane, no pidfd", use-instead = "rustix" },
+  # Only the safe wrapper may touch the raw FFI.
+  { crate = "plx-ghostty-sys", wrappers = ["plx-ghostty"] },
+]
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"

@@ -1,0 +1,19 @@
+[package]
+name = "plx-sim"
+description = "Deterministic whole-system simulation harness (test-only)"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+plx-client-core.workspace = true
+plx-core = { workspace = true, features = ["testkit"] }
+plx-emulator.workspace = true
+plx-ghostty.workspace = true
+plx-protocol.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+
+[lints]
+workspace = true

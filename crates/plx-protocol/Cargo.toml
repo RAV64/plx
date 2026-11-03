@@ -1,0 +1,29 @@
+[package]
+name = "plx-protocol"
+description = "Client/daemon wire protocol: Hello handshake, length-prefixed postcard framing, message codecs"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+plx-bug.workspace = true
+plx-core.workspace = true
+plx-emulator.workspace = true
+postcard.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+divan.workspace = true
+plx-alloc-count.workspace = true
+plx-core = { workspace = true, features = ["testkit"] }
+plx-emulator = { workspace = true, features = ["testkit"] }
+plx-ghostty.workspace = true
+proptest.workspace = true
+
+[[bench]]
+name = "codec"
+harness = false
+
+[lints]
+workspace = true

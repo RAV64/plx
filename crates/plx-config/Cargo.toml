@@ -1,0 +1,14 @@
+[package]
+name = "plx-config"
+description = "TOML configuration parsed into validated plx-core config types (pure, no IO)"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+serde.workspace = true
+thiserror.workspace = true
+toml.workspace = true
+
+[lints]
+workspace = true

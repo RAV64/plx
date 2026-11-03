@@ -1,0 +1,8 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc e69b2c401c1d431b0972b2ed03cac6411dba9cc11dae4cd466921690ca27fa57 # shrinks to size = GridSize { cols: 1, rows: 1 }, options = Options { scrollback: Bytes(1048576), continuation_max_bytes: 4096, grapheme_clustering: Enabled }, bytes = [194, 194, 15, 138, 34, 210, 128, 127, 57, 127, 172, 141, 3, 194, 76, 119, 127, 194, 2, 194, 127, 127, 127, 2, 127]
+cc 59733ea028447e96252357d2404baf6de605b2f09e3b0eb82d8a23427b13d7eb # shrinks to size = GridSize { cols: 16, rows: 2 }, options = Options { scrollback: Bytes(1048576), continuation_max_bytes: 4096, grapheme_clustering: Enabled }, chunks = [[27, 91, 48, 59, 52, 72, 97, 65, 48, 32, 32, 32, 97, 65, 65, 65, 48, 97, 32, 32, 97, 97, 65, 32, 97, 48, 65, 65, 97, 97, 32, 32, 230, 188, 162, 229, 173, 151], [8, 32]]

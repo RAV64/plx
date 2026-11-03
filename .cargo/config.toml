@@ -1,0 +1,17 @@
+# All build flags live here, never in shell-exported RUSTFLAGS: cargo
+# fingerprints them, and the MCP tools, the dev shell and rust-analyzer must
+# see identical values or they evict each other's artefacts.
+#
+# Linking uses rustc's default rust-lld on x86_64-unknown-linux-gnu.
+
+[build]
+# plx requires x86-64-v3: AVX2, BMI1/2, FMA, MOVBE (Intel Haswell, AMD
+# Excavator/Zen and later). Hot loops are written and measured against it.
+rustflags = ["-C", "target-cpu=x86-64-v3"]
+# Doctests compile through rustdoc, which reads rustdocflags, not rustflags.
+rustdocflags = ["-C", "target-cpu=x86-64-v3"]
+
+[env]
+# Inner-loop property-test budget. A value already set in the environment
+# wins (force = false), so nightly runs can export PROPTEST_CASES=10000.
+PROPTEST_CASES = { value = "64", force = false }

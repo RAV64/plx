@@ -1,0 +1,8 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 223e689732e83469f9d32afffe0e628056eb47a8694f4febfdda30b4d4f350b0 # shrinks to cells = [Cell { glyph: Glyph(0), style: StyleId(0), width: Narrow }, Cell { glyph: Glyph(0), style: StyleId(0), width: Narrow }, Cell { glyph: Glyph(0), style: StyleId(0), width: Narrow }, Cell { glyph: Glyph(0), style: StyleId(0), width: Narrow }], at = Index(1039029762787), glyph = 1114112, width = 0
+cc cd66325bdfcc6dc30c31631452e05f68c773278fd3580fb963cdf2bea834510c # shrinks to (style, mut row, breaks) = (StyleId(2385759), [Cell { glyph: Glyph(0), style: StyleId(2385759), width: Narrow }, Cell { glyph: Glyph(0), style: StyleId(2385759), width: Narrow }, Cell { glyph: Glyph(0), style: StyleId(2385759), width: Narrow }, Cell { glyph: Glyph(0), style: StyleId(2385759), width: Narrow }, Cell { glyph: Glyph(0), style: StyleId(2385759), width: Narrow }, Cell { glyph: Glyph(0), style: StyleId(2385759), width: Narrow }, Cell { glyph: Glyph(0), style: StyleId(2385759), width: Narrow }, Cell { glyph: Glyph(0), style: StyleId(2385759), width: Narrow }], [(Index(28387928519165722), Cell { glyph: Glyph(127), style: StyleId(2385759), width: Narrow })])

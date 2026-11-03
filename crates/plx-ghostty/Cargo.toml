@@ -1,0 +1,24 @@
+[package]
+name = "plx-ghostty"
+description = "The libghostty-vt adapter: implements plx_emulator::Emulator"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+plx-bug.workspace = true
+plx-emulator.workspace = true
+plx-ghostty-sys.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+divan.workspace = true
+plx-alloc-count.workspace = true
+proptest.workspace = true
+
+[[bench]]
+name = "ingest"
+harness = false
+
+[lints]
+workspace = true

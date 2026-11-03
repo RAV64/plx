@@ -1,0 +1,36 @@
+[package]
+name = "plx-daemon"
+description = "The daemon shell: mio reactor, PTYs, socket, recording, logging"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+mio.workspace = true
+plx-bug.workspace = true
+plx-core.workspace = true
+plx-emulator.workspace = true
+plx-ghostty.workspace = true
+plx-protocol.workspace = true
+libc.workspace = true
+rustix.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+signal-hook.workspace = true
+signal-hook-mio.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tracing-appender.workspace = true
+tracing-subscriber.workspace = true
+
+[dev-dependencies]
+plx-client-core.workspace = true
+proptest.workspace = true
+serde_json.workspace = true
+
+[[bench]]
+name = "echo"
+harness = false
+
+[lints]
+workspace = true

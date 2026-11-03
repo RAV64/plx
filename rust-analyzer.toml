@@ -1,0 +1,4 @@
+# rust-analyzer builds into its own target directory so it never contends with
+# `cargo check` for the build lock or overwrites its artefacts.
+[cargo]
+targetDir = true

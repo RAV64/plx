@@ -1,0 +1,9 @@
+[profile.default]
+# Each test runs in its own process: a crash inside libghostty takes down one
+# test, not the whole run.
+fail-fast = false
+slow-timeout = { period = "30s", terminate-after = 4 }
+
+[profile.ci]
+fail-fast = false
+retries = 0

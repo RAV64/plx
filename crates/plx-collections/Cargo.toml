@@ -1,0 +1,18 @@
+[package]
+name = "plx-collections"
+description = "plx's collections: deterministic interners with id reuse (ahash index)"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+ahash.workspace = true
+hashbrown.workspace = true
+plx-bug.workspace = true
+
+[dev-dependencies]
+plx-alloc-count.workspace = true
+proptest.workspace = true
+
+[lints]
+workspace = true

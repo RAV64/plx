@@ -1,0 +1,122 @@
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+# The bindings generator has its own workspace so bindgen and libclang never
+# enter this build graph.
+exclude = ["xtask"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[workspace.dependencies]
+plx-alloc-count = { path = "crates/plx-alloc-count" }
+plx-bug = { path = "crates/plx-bug" }
+plx-client-core = { path = "crates/plx-client-core" }
+plx-collections = { path = "crates/plx-collections" }
+plx-config = { path = "crates/plx-config" }
+plx-core = { path = "crates/plx-core" }
+plx-emulator = { path = "crates/plx-emulator" }
+plx-ghostty = { path = "crates/plx-ghostty" }
+plx-ghostty-sys = { path = "crates/plx-ghostty-sys" }
+plx-protocol = { path = "crates/plx-protocol" }
+
+ahash = { version = "0.8.12", default-features = false }
+mio = { version = "1.2.4", features = ["os-poll", "net", "os-ext"] }
+libc = "0.2.191"
+rustix = { version = "1.1.6", features = ["pty", "termios", "process", "net", "fs", "stdio", "event"] }
+signal-hook = "0.4.5"
+signal-hook-mio = { version = "0.3.0", features = ["support-v1_0"] }
+tracing = "0.1.44"
+tracing-appender = "0.2.5"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
+divan = "0.1.21"
+hashbrown = { version = "0.17.1", default-features = false }
+postcard = { version = "1.1.3", default-features = false, features = ["alloc"] }
+proptest = "1.12.0"
+serde = { version = "1.0.229", default-features = false, features = ["alloc", "derive"] }
+serde_json = "1.0.154"
+termina = "0.4.0"
+unicode-width = { version = "0.2.3", default-features = false }
+unicode-segmentation = "1.13.3"
+thiserror = { version = "2.0.21", default-features = false }
+toml = { version = "1.1.8", default-features = false, features = ["std", "serde", "parse"] }
+
+[workspace.lints.rust]
+# Core crates add #![forbid(unsafe_code)]; FFI crates opt in with
+# #![expect(unsafe_code, reason = "...")].
+unsafe_code = "deny"
+unused_must_use = "deny"
+missing_debug_implementations = "warn"
+unreachable_pub = "warn"
+let_underscore_drop = "warn"
+
+[workspace.lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+# Conflicts with rustc's `unreachable_pub` (enabled above), which asks for
+# exactly the `pub(crate)` this lint rejects; we keep the rustc lint.
+redundant_pub_crate = "allow"
+# No panics in production code.
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+todo = "deny"
+unimplemented = "deny"
+unreachable = "deny"
+indexing_slicing = "deny"
+string_slice = "deny"
+unwrap_in_result = "deny"
+panic_in_result_fn = "deny"
+# No catch-alls, no swallowed errors.
+wildcard_enum_match_arm = "deny"
+match_wildcard_for_single_variants = "deny"
+map_err_ignore = "deny"
+let_underscore_must_use = "deny"
+# Every suppression is explicit and justified.
+allow_attributes = "deny"
+allow_attributes_without_reason = "deny"
+# The daemon has no tty; only main decides the exit code.
+print_stdout = "deny"
+print_stderr = "deny"
+dbg_macro = "deny"
+exit = "deny"
+# Numeric safety.
+as_conversions = "warn"
+cast_possible_truncation = "warn"
+mem_forget = "deny"
+# Copies and allocations. The clone ban itself
+# is `disallowed-methods` in clippy.toml; these catch related patterns that
+# pedantic/nursery/perf do not already cover.
+clone_on_ref_ptr = "deny"
+format_push_string = "deny"
+rc_buffer = "deny"
+# Hash iteration order must never reach output (LookupMap has no iterator).
+iter_over_hash_type = "deny"
+# The clone and type bans from clippy.toml are errors, not warnings.
+disallowed_methods = "deny"
+disallowed_types = "deny"
+
+# Release aborts on panic: a bug is never caught and continued, and the
+# shells' hooks log it first. Dev and test keep
+# unwinding (tests always do; matching them avoids building everything twice).
+# Overflow checks make every arithmetic overflow loud; external integers are
+# bounded at their parse boundary, so only a bug can trip one.
+[profile.release]
+panic = "abort"
+overflow-checks = true
+
+# Line tables let perf and cachegrind attribute costs to source lines; they
+# do not change code generation.
+[profile.bench]
+debug = "line-tables-only"
+
+[profile.dev]
+# Faster links and smaller test binaries; backtraces keep file:line.
+debug = "line-tables-only"
+
+# Dependencies are built optimised once and then cached, so proptest-heavy
+# tests run fast while our own crates stay quick to rebuild.
+[profile.dev.package."*"]
+opt-level = 2

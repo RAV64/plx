@@ -1,0 +1,27 @@
+[package]
+name = "plx-client"
+description = "The client shell: raw mode, input parsing, the terminal writer, restore guards"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+mio.workspace = true
+plx-bug.workspace = true
+plx-client-core.workspace = true
+plx-core.workspace = true
+plx-emulator.workspace = true
+plx-protocol.workspace = true
+rustix.workspace = true
+signal-hook.workspace = true
+signal-hook-mio.workspace = true
+termina.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+plx-daemon = { path = "../plx-daemon" }
+plx-ghostty.workspace = true
+proptest.workspace = true
+
+[lints]
+workspace = true

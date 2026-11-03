@@ -1,0 +1,80 @@
+[package]
+name = "xtask"
+description = "Maintenance tasks and source lints for plx; run with `cargo run --manifest-path xtask/Cargo.toml -- <task>`"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+# A standalone workspace: bindgen (and libclang) must never become part of the
+# main workspace's build graph.
+[workspace]
+
+[dependencies]
+bindgen = "0.73.2"
+proc-macro2 = { version = "1.0.107", features = ["span-locations"] }
+toml = "1.1.8"
+
+# Standalone workspace, so it cannot inherit [workspace.lints]: this is a
+# mirror of it, and `xtask lint` fails when the two drift apart. Edit the
+# workspace's first, then copy here.
+[lints.rust]
+# Core crates add #![forbid(unsafe_code)]; FFI crates opt in with
+# #![expect(unsafe_code, reason = "...")].
+unsafe_code = "deny"
+unused_must_use = "deny"
+missing_debug_implementations = "warn"
+unreachable_pub = "warn"
+let_underscore_drop = "warn"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+# Conflicts with rustc's `unreachable_pub` (enabled above), which asks for
+# exactly the `pub(crate)` this lint rejects; we keep the rustc lint.
+redundant_pub_crate = "allow"
+# No panics in production code.
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+todo = "deny"
+unimplemented = "deny"
+unreachable = "deny"
+indexing_slicing = "deny"
+string_slice = "deny"
+unwrap_in_result = "deny"
+panic_in_result_fn = "deny"
+# No catch-alls, no swallowed errors.
+wildcard_enum_match_arm = "deny"
+match_wildcard_for_single_variants = "deny"
+map_err_ignore = "deny"
+let_underscore_must_use = "deny"
+# Every suppression is explicit and justified.
+allow_attributes = "deny"
+allow_attributes_without_reason = "deny"
+# The daemon has no tty; only main decides the exit code. (xtask is a
+# command-line tool: it reports on stdout/stderr, see lint::XTASK_ALLOWS.)
+print_stdout = "allow"
+print_stderr = "allow"
+dbg_macro = "deny"
+exit = "deny"
+# Numeric safety.
+as_conversions = "warn"
+cast_possible_truncation = "warn"
+mem_forget = "deny"
+# Copies and allocations. The clone ban itself
+# is `disallowed-methods` in clippy.toml; these catch related patterns that
+# pedantic/nursery/perf do not already cover.
+clone_on_ref_ptr = "deny"
+format_push_string = "deny"
+rc_buffer = "deny"
+# Hash iteration order must never reach output (LookupMap has no iterator).
+iter_over_hash_type = "deny"
+# The clone and type bans from clippy.toml are errors, not warnings.
+disallowed_methods = "deny"
+disallowed_types = "deny"
+
+# Release aborts on panic: a bug is never caught and continued, and the
+# shells' hooks log it first. Dev and test keep
+# unwinding (tests always do; matching them avoids building everything twice).
+# Overflow checks make every arithmetic overflow loud; external integers are
+# bounded at their parse boundary, so only a bug can trip one.

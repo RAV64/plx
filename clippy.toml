@@ -1,0 +1,42 @@
+# Workspace-wide clippy configuration: every crate, xtask and research code
+# resolve to this file. A crate-level clippy.toml would replace it entirely
+# (clippy does not merge them), so there are none.
+allow-unwrap-in-tests = true
+allow-expect-in-tests = true
+allow-panic-in-tests = true
+allow-indexing-slicing-in-tests = true
+
+# No boolean blindness: a bool field or parameter is an
+# enum waiting to be named. With 0, struct_excessive_bools and
+# fn_params_excessive_bools (pedantic) fire on any single one.
+max-struct-bools = 0
+max-fn-params-bools = 0
+
+# The clone ban. Copying a `Copy` value needs no method
+# call, so it stays free; any real copy needs a visible
+# `#[expect(clippy::disallowed_methods, reason = "...")]` at its site.
+disallowed-methods = [
+  { path = "core::clone::Clone::clone", reason = "no copies: lend a reference or a view" },
+  { path = "core::iter::Iterator::cloned", reason = "no copies: iterate references, or `copied()` for Copy types" },
+  { path = "core::option::Option::cloned", reason = "no copies: use the reference, or `copied()` for Copy types" },
+  { path = "alloc::borrow::ToOwned::to_owned", reason = "no copies: borrow; an owner that must keep data copies once, explicitly" },
+  { path = "slice::to_vec", reason = "no copies: lend the slice" },
+  { path = "alloc::string::ToString::to_string", reason = "no copies: borrow the str, or format into a reused buffer" },
+  { path = "core::option::Option::unwrap_or_default", reason = "no silent defaults: handle absence explicitly" },
+  { path = "core::result::Result::unwrap_or_default", reason = "no silent defaults: handle the error" },
+  { path = "core::result::Result::ok", reason = "never discard an error: match it" },
+  { path = "std::panic::catch_unwind", reason = "panics are bugs, never control flow" },
+  { path = "std::process::abort", reason = "only the shells' panic hooks abort, each with an #[expect]" },
+]
+
+disallowed-types = [
+  { path = "std::collections::HashMap", reason = "use LookupMap (ahash, lookup-only) or IdMap (ordered)" },
+  { path = "std::collections::HashSet", reason = "use LookupMap or IdMap" },
+  { path = "std::sync::Mutex", reason = "no locks by design; parking_lot if ever needed" },
+  { path = "std::sync::RwLock", reason = "no locks by design; parking_lot if ever needed" },
+  { path = "std::sync::Condvar", reason = "no locks by design; parking_lot if ever needed" },
+  { path = "alloc::rc::Rc", reason = "one owner per datum" },
+  { path = "alloc::sync::Arc", reason = "one owner per datum" },
+  { path = "core::cell::RefCell", reason = "no interior mutability: one owner, &mut access" },
+  { path = "core::cell::Cell", reason = "no interior mutability: one owner, &mut access" },
+]

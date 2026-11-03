@@ -1,0 +1,11 @@
+[package]
+name = "plx-alloc-count"
+description = "A counting global allocator for zero-allocation and memory-budget tests (dev-only)"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

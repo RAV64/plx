@@ -1,0 +1,35 @@
+[package]
+name = "plx-core"
+description = "The pure, deterministic session core: Core::step(now, input, effects)"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[features]
+# Test support, for this crate's integration tests and the simulation:
+# raw id construction and `Structure::assert_invariants`. Never enabled in
+# production builds.
+testkit = []
+
+[dependencies]
+plx-bug.workspace = true
+plx-collections.workspace = true
+plx-emulator.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+divan.workspace = true
+plx-core = { path = ".", features = ["testkit"] }
+plx-emulator = { workspace = true, features = ["testkit"] }
+plx-alloc-count.workspace = true
+postcard.workspace = true
+proptest.workspace = true
+serde_json.workspace = true
+
+[[bench]]
+name = "core"
+harness = false
+
+[lints]
+workspace = true

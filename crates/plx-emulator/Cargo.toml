@@ -1,0 +1,24 @@
+[package]
+name = "plx-emulator"
+description = "The terminal-emulator port: plx-owned value types and the Emulator trait"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[features]
+# A deterministic FakeEmulator for tests and the simulation; never in
+# production builds.
+testkit = []
+
+[dependencies]
+plx-bug.workspace = true
+plx-collections.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true

@@ -1,0 +1,11 @@
+[package]
+name = "plx-bug"
+description = "The one way plx panics: bug!, invariant!, contract! and OrBug"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true
